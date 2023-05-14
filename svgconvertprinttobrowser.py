@@ -3,6 +3,8 @@
 
 '''Plugin to serve as work-around for the lack of printing support'''
 
+import re
+from urllib.request import unquote
 from gi.repository import Gtk
 
 from functools import partial
@@ -27,13 +29,13 @@ from zim.plugins.tasklist.gui import TaskListWindowExtension
 class PrintToBrowserPlugin(PluginClass):
 
 	plugin_info = {
-		'name': _('Print to Browser'), # T: plugin name
+		'name': _('Print to Browser Convert Svg'), # T: plugin name
 		'description': _('''\
 This plugin provides a workaround for the lack of
 printing support in zim. It exports the current page
 to html and opens a browser. Assuming the browser
 does have printing support this will get your
-data to the printer in two steps.
+data to the printer in two steps. 
 
 This is a core plugin shipping with zim.
 '''), # T: plugin description
@@ -54,7 +56,27 @@ This is a core plugin shipping with zim.
 
 		lines = []
 		template.process(lines, context)
-		file.writelines(lines)
+		new_lines = []
+		for single_line in lines:
+			# <img src="file:///E:/zim_notebook/svg%E6%B5%8B%E8%AF%95/bob.svg">
+			svg_iter = re.finditer("<img src=\"([^<]+\.svg)\">", single_line)
+			right, final_str, svg_exist_flag, last_part = 0, '', False, ''
+			for sub_svg in svg_iter:
+				svg_exist_flag = True
+				if sub_svg.span()[0] > right:
+					final_str += single_line[right:sub_svg.span()[0]]
+				right = sub_svg.span()[1]
+				svg_path = unquote(sub_svg.group(1)[8:])
+				with open(svg_path, mode='r', encoding='utf8') as svg_text:
+					final_str += svg_text.read()
+				last_part = single_line[right:]
+			if svg_exist_flag and last_part:
+				final_str += last_part
+			if not svg_exist_flag:
+				final_str += single_line
+			new_lines.append(final_str)
+
+		file.writelines(new_lines)
 		return file
 
 
