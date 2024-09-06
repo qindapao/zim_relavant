@@ -15,5 +15,8 @@ powershell.exe -ExecutionPolicy Bypass -File E:\code\zim_relavant\open_with_emac
 ```txt
 <Actions>/EmacsPageViewExtension/open_in_emacs Shift+Ctrl+O
 ```
+## 配置文件中的一些注意点
+
+在样式配置文件`style.conf`中，行内代码和跨行的代码只能指定字体，不应该指定字体大小。
 
 
