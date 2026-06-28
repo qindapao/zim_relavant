@@ -19,4 +19,25 @@ powershell.exe -ExecutionPolicy Bypass -File E:\code\zim_relavant\open_with_emac
 
 在样式配置文件`style.conf`中，行内代码和跨行的代码只能指定字体，不应该指定字体大小。
 
+## U盘可移动性安装
+
+目录结构:
+
+```txt
+F:\
+	Notebooks
+	zim
+	zim_setup
+		delete.py
+		gtk-3.0/
+		install.sh
+		open_in_gvim.py
+		Print.html
+		readme.txt
+		style.conf
+		svgconvertprinttobrowser.py
+		zim.bat
+```
+
+
 

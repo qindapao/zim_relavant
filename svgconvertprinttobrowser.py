@@ -43,14 +43,14 @@ def deal_div(origin_str):
     return final_str
 
 
-class PrintToBrowserPlugin(PluginClass):
+class SvgPrintToBrowserPlugin(PluginClass):
 
 	plugin_info = {
-		'name': _('my plugin'), # T: plugin name
+		'name': _('svg_print_to_browser'), # T: plugin name
 		'description': _('''\
 qinqing modify fo future use
 '''), # T: plugin description
-		'author': 'Jaap Karssenberg',
+		'author': 'qindapao',
 		'help': 'Plugins:Print to Browser'
 	}
 
@@ -88,7 +88,7 @@ qinqing modify fo future use
 		return file
 
 
-class PrintToBrowserPageViewExtension(PageViewExtension):
+class SvgPrintToBrowserPageViewExtension(PageViewExtension):
 
 	@action(_('_Print to Browser'), accelerator='<Primary>P', menuhints='page') # T: menu item
 	def print_to_browser(self, page=None):
